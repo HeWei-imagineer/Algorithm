@@ -27,7 +27,7 @@ class Tree(object):
 		else:
 			print('Tree is null')
 
-	def midThreadBinaryTree(self):
+	def inThreadBinaryTree(self):
 		stack = []
 		if self.root:
 			curren = self.root
@@ -48,44 +48,27 @@ class Tree(object):
 		else:
 			print('Tree is null')
 
-	def afterThreadBinaryTree(self):
+	def postThreadBinaryTree(self):
 		stack = []
 		if self.root:
 			curren = self.root
-			last = None
 			while stack or curren:
 				if not curren:
-					curren = stack[-1]
-					#无右孩子，直到有右孩子
-					while len(stack)>1 and not stack[-1].right :
+					while stack and stack[-1].right == curren:
 						curren = stack.pop()
 						print(curren.val)
-						last = curren 
-					#判断栈空否
 					if not stack:
 						break
-					#有右孩子,直到不是上一次访问值
-					while stack and stack[-1].right and stack[-1].right==last:
-						curren = stack.pop()
-						print(curren.val)
-						last = curren
-					#判断栈空否
-					if not stack:
-						break
-					#有右孩子，而且不是上一次访问值
-					if stack[-1].right and stack[-1].right!=last:
-						curren = stack[-1]
-						stack.append(curren.right)
-						#这里出了错！！！，少了right，你的程序逻辑太容易出错
-						curren = curren.right.left
-						continue
+					#如果右孩子未访问过，当前指针指向有孩子
+					curren = stack[-1].right
+
 				stack.append(curren)
 				curren = curren.left 
 		else:
 			print('Tree is null')
 		
 
-if True:
+if __name__=='__main()__':
 	f = TreeNode('f',None,None)
 	g = TreeNode('g',None,None)
 	h = TreeNode('h',None,None)
@@ -95,8 +78,8 @@ if True:
 	b = TreeNode('b',None,d)
 	a = TreeNode('a',b,c)
 	tree = Tree(a)
-#	tree.preThreadBinaryTree()
-#	tree.midThreadBinaryTree()
-	tree.afterThreadBinaryTree()
+	tree.preThreadBinaryTree()
+	tree.inThreadBinaryTree()
+	tree.postThreadBinaryTree()
 
 		
