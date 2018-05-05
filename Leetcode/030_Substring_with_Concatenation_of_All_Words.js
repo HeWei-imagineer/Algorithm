@@ -5,10 +5,11 @@
  */
 
 let find = function(container,words, index) {
-	console.log(container,words, index);
+	console.log(container, words, index);
 	for (let i of words) {
 		if (container.get(i).indexOf(index) !== -1) {
-			if(arguments.callee(container, words.filter(x => x !== i), index + i.length)) {
+			//!important
+			if(arguments.callee(container, words.slice(0,words.indexOf(i)).concat(words.slice(words.indexOf(i)+1)), index + i.length)) {
 				return true;
 			}
 		}
@@ -49,13 +50,14 @@ var findSubstring = function(s, words) {
 		}
 		console.log('find index', temp1, temp2);
 		let index = temp2[0] + temp1.length;
-		if (find(container, words.filter(x => x !== temp1), index)) {
+		// !important
+		if (find(container, words.slice(0,words.indexOf(temp1)).concat(words.slice(words.indexOf(temp1)+1)), index)) {
 			console.log(temp2)
 			ans[ans.length] = temp2[0];
 		}
 		temp2.shift();
 		console.log('container',container)
-			console.log(container)
+		console.log(container)
 	}
 
 	return ans;
