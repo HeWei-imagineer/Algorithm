@@ -1,58 +1,73 @@
-/*/**
+/**
  * @param {string} s
  * @param {string[]} words
  * @return {number[]}
  */
 
-var findSubstring = function(s, words) {
-	if (!s) return [];
-	if (words.length === 0) return [0];
-	var ans = [];
-	var index;
-	var temp;
-	var star = 0;
-	var wordsLehgth = words.join('').length;
-	do {
-		// index = [s.indexOf(i) for (i of words)];
-		// find the first position of each word in s
-        index = words.map(function(elem) {
-        	return s.indexOf(elem, star);
-        });
-        console.log(star);
-        console.log('index', index);
-        // why sort doesn't work
-		temp = index.slice().sort((x,y) => x-y);
-		// if every word can be find in s
-		//temp's length always > 1, the last one needn't shift 
-		while (temp.indexOf(-1)===-1 && temp.length>1) {
-			console.log('temp',temp);
-			console.log(index.indexOf(temp[0]));
-			console.log(words[index.indexOf(temp[0])].length + temp[0]);
-
-			// find position of another circle
-			if (index.indexOf(words[index.indexOf(temp[0])].length + temp[0])!==-1) {
-				temp.shift();
-			} else {
-				break;
+let find = function(container,words, index) {
+	console.log(container,words, index);
+	for (let i of words) {
+		if (container.get(i).indexOf(index) !== -1) {
+			if(arguments.callee(container, words.filter(x => x !== i), index + i.length)) {
+				return true;
 			}
 		}
-		//hack
-		if (temp.length===1) {
-			ans.push(index.sort((x,y) => x-y)[0])
-		} else {
-			return ans;
+	}
+	if (words.length === 0) {
+		return true;
+	} else {
+		return false;
+	}
+
+}
+
+var findSubstring = function(s, words) {
+	let container = new Map();
+	let temp1, temp2 = [Number.MAX_VALUE];
+	let ans = [];
+	for (let i of words) {
+		let start = 0;
+		let index = [];
+		while (start < s.length && s.indexOf(i, start) !== -1) {
+			index[index.length] = s.indexOf(i, start);
+			start = index[index.length-1] + 1;
 		}
-		// find the another star
-		star = index[0]+wordsLehgth;
-// more details
-	} while (index.indexOf(-1) === -1 ); 
+		container.set(i,index);
+	}
+	console.log(container);
+	while (container.size !==0) {
+		for (let [key, value] of container) {
+			if (value.length === 0) {
+				//container.delete(key); 
+				return ans;
+			}
+			console.log(key, value, temp2);
+			if (value[0] < temp2[0]) {
+				temp1 = key;
+				temp2 = value;
+			}
+		}
+		console.log('find index', temp1, temp2);
+		let index = temp2[0] + temp1.length;
+		if (find(container, words.filter(x => x !== temp1), index)) {
+			console.log(temp2)
+			ans[ans.length] = temp2[0];
+		}
+		temp2.shift();
+		console.log('container',container)
+			console.log(container)
+	}
 
-	return ans; 
-};
+	return ans;
+}
 
-console.log(findSubstring('barfoofoobarthefoobarman',['foo','bar',"the"]))
 
-// dump
+let a = findSubstring ("wordgoodgoodgoodbestword",["word","good","best","word"]);
+/*let container = new Map();
+container.set('fo',[0,9]);
+container.set('bar',[2,6]);
+container.set('o',[1,5,10,11]);
+let a = find(container, ['bar','o'], 2)*/
+console.log(a);
 
-// optimize
-// find index of each word in s and use priority queue store them
+
