@@ -23,7 +23,6 @@ var searchRange = function(nums, target) {
 				end++;
 			}
 			return [start, end];
-
 		}
 	}
 	return [-1, -1];
