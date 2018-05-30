@@ -5,12 +5,13 @@
  */
 var combinationSum = function(candidates, target) {
 	let ans = [];
-	findCurcle(candidates, target, [], ans);
+	findCircle(candidates, target, [], ans);
 	console.log(ans);
+	return ans;
     
 };
 
-let findCurcle = function(candidates, target, temp, ans) {
+let findCircle = function(candidates, target, temp, ans) {
 	if (target === 0) {
 		return true;
 	}
@@ -20,7 +21,7 @@ let findCurcle = function(candidates, target, temp, ans) {
 			if (i > 0) {
 				addSum.push(candidates[0]);
 			}
-			if (findCurcle(candidates.slice(1,), target - candidates[0]*i, [...temp, ...addSum], ans)) {
+			if (findCircle(candidates.slice(1,), target - candidates[0]*i, [...temp, ...addSum], ans)) {
 				ans.push( [...temp, ...addSum]);
 				console.log(ans[ans.length-1]);
 			};
