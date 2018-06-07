@@ -13,12 +13,10 @@ var firstMissingPositive = function(nums) {
 	}
     let s = new Set(nums);
     nums = [...s];
-    /*nums.sort((x,y) => {
+    nums.sort((x,y) => {
     	return x - y;
-    });*/
-    console.log(nums)
-    nums.sort();
-    console.log(s, nums);
+    });
+    // console.log(nums)
     let gg = g();
     for (let i of nums) {
     	// let b;
@@ -27,7 +25,6 @@ var firstMissingPositive = function(nums) {
     		if (i !== b) {
     			return b;
     		}
-
     	}
     } 
     return gg.next().value;
