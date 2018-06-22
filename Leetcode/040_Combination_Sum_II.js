@@ -7,6 +7,7 @@ var combinationSum2 = function(candidates, target) {
 	let ans = new Set(), result = [];
 	candidates.sort();
 	findCircle_2(candidates, target, '', ans);
+	// 处理结果，因为这里把结果存成了字符串，并利用set，去重复
 	for (let i of ans) {
 		result.push(i.split(',').map(item => {
 			return parseInt(item)
